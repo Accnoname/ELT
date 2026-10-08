@@ -1,0 +1,22 @@
+custom_postgres:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      threads: 4
+      host: host.docker.internal   # Khi dbt chạy trong Docker
+      port: 5434
+      user: postgres
+      pass: secret
+      dbname: destination_db
+      schema: public
+
+    prod:
+      type: postgres
+      threads: 4
+      host: localhost              # Khi dbt chạy trực tiếp trên máy host
+      port: 5434
+      user: postgres
+      pass: secret
+      dbname: destination_db
+      schema: public

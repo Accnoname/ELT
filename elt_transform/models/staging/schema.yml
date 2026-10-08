@@ -1,0 +1,78 @@
+version: 2
+
+models:
+  - name: stg_films
+    description: "Bảng phim đã được làm sạch và chuẩn hóa từ nguồn thô."
+    columns:
+      - name: film_id
+        description: "ID duy nhất của phim."
+        tests:
+          - unique
+          - not_null
+      - name: title
+        description: "Tên phim."
+        tests:
+          - not_null
+      - name: release_date
+        description: "Ngày phim được phát hành."
+        tests:
+          - not_null
+      - name: price
+        description: "Giá thuê phim (USD)."
+        tests:
+          - not_null
+      - name: rating
+        description: "Xếp hạng MPAA của phim (G, PG, PG-13, R, NC-17)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['G', 'PG', 'PG-13', 'R', 'NC-17']
+      - name: user_rating
+        description: "Điểm đánh giá của người dùng (thang 0-10)."
+        tests:
+          - not_null
+
+  - name: stg_actors
+    description: "Bảng diễn viên đã được làm sạch từ nguồn thô."
+    columns:
+      - name: actor_id
+        description: "ID duy nhất của diễn viên."
+        tests:
+          - unique
+          - not_null
+      - name: actor_name
+        description: "Họ và tên đầy đủ của diễn viên."
+        tests:
+          - not_null
+      - name: first_name
+        description: "Tên (được tách từ actor_name)."
+      - name: last_name
+        description: "Họ (được tách từ actor_name)."
+
+  - name: stg_film_actors
+    description: "Bảng quan hệ nhiều-nhiều giữa phim và diễn viên."
+    columns:
+      - name: film_id
+        description: "ID của phim (foreign key → stg_films)."
+        tests:
+          - not_null
+      - name: actor_id
+        description: "ID của diễn viên (foreign key → stg_actors)."
+        tests:
+          - not_null
+
+  - name: stg_film_category
+    description: "Bảng quan hệ giữa phim và thể loại."
+    columns:
+      - name: category_id
+        description: "ID của thể loại."
+        tests:
+          - not_null
+      - name: film_id
+        description: "ID của phim (foreign key → stg_films)."
+        tests:
+          - not_null
+      - name: category_name
+        description: "Tên thể loại phim (in hoa toàn bộ)."
+        tests:
+          - not_null

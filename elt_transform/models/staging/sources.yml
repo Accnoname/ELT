@@ -1,0 +1,58 @@
+version: 2
+
+sources:
+  - name: public
+    description: "Raw data được load từ source_postgres vào destination_postgres"
+    schema: public
+    tables:
+      - name: films
+        description: "Bảng phim raw"
+        columns:
+          - name: film_id
+            description: "Primary key"
+            tests:
+              - unique
+              - not_null
+          - name: title
+            tests:
+              - not_null
+          - name: price
+            tests:
+              - not_null
+
+      - name: actors
+        description: "Bảng diễn viên raw"
+        columns:
+          - name: actor_id
+            tests:
+              - unique
+              - not_null
+          - name: actor_name
+            tests:
+              - not_null
+
+      - name: film_actors
+        description: "Bảng quan hệ film-actor"
+        columns:
+          - name: film_id
+            tests:
+              - not_null
+          - name: actor_id
+            tests:
+              - not_null
+
+      - name: film_category
+        description: "Bảng phân loại phim theo thể loại"
+        columns:
+          - name: category_id
+            tests:
+              - unique
+              - not_null
+
+      - name: users
+        description: "Bảng users"
+        columns:
+          - name: user_id
+            tests:
+              - unique
+              - not_null

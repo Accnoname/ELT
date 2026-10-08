@@ -1,0 +1,40 @@
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Logs
+logs/
+*.log
+
+# dbt artifacts
+**/target/
+**/dbt_packages/
+**/logs/
+
+# Environment & Secrets
+.env
+.env.*
+*.env
+
+# AI Agent Configurations & Secrets
+AGENTS.md
+GEMINI.md
+CLAUDE.md
+.agents/
+.gemini/
+.claude/
+.brain/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

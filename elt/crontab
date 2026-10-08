@@ -1,0 +1,17 @@
+# Cú pháp: phút giờ ngày tháng thứ   lệnh
+# ┌── phút (0-59)
+# │  ┌── giờ (0-23)
+# │  │  ┌── ngày trong tháng (1-31)
+# │  │  │  ┌── tháng (1-12)
+# │  │  │  │  ┌── thứ (0=CN...6=T7)
+# │  │  │  │  │
+# *  *  *  *  *
+
+# Chạy pipeline mỗi ngày lúc 12:00 đêm
+0 0 * * * /app/pipeline.sh >> /var/log/pipeline.log 2>&1
+
+# Uncomment dòng dưới nếu muốn chạy mỗi giờ:
+# 0 * * * * /app/pipeline.sh >> /var/log/pipeline.log 2>&1
+
+# Uncomment nếu muốn chạy mỗi 30 phút:
+# */30 * * * * /app/pipeline.sh >> /var/log/pipeline.log 2>&1
