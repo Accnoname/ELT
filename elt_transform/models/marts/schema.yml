@@ -1,0 +1,84 @@
+version: 2
+
+models:
+  - name: dim_films
+    description: "Dimension table for films in Kimball Star Schema, with genre rollups and cast rosters."
+    columns:
+      - name: film_id
+        description: "Primary key / Natural key of the film."
+        tests:
+          - unique
+          - not_null
+      - name: title
+        tests:
+          - not_null
+      - name: release_year
+        tests:
+          - not_null
+      - name: primary_category
+        tests:
+          - not_null
+
+  - name: dim_actors
+    description: "Dimension table for actors, tracking career spans, film counts, and primary genre specialty."
+    columns:
+      - name: actor_id
+        description: "Primary key of the actor."
+        tests:
+          - unique
+          - not_null
+      - name: actor_name
+        tests:
+          - not_null
+
+  - name: dim_categories
+    description: "Dimension table for genre categories with catalog share and popularity ranking."
+    columns:
+      - name: category_name
+        description: "Primary key / Genre name."
+        tests:
+          - unique
+          - not_null
+
+  - name: fct_film_ratings
+    description: "Fact table for film ratings, analytical performance tiers, and cohort benchmarks."
+    columns:
+      - name: film_id
+        description: "Foreign key referencing dim_films."
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('dim_films')
+              field: film_id
+      - name: overall_rating_rank
+        description: "Global rank across the entire catalog calculated via DENSE_RANK()."
+        tests:
+          - not_null
+      - name: rating_quartile
+        description: "Calculated quartile bucket (1 to 4) via NTILE(4)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4]
+
+  - name: fct_actors_summary
+    description: "Analytical fact summary model for actor productivity and rating percentiles."
+    columns:
+      - name: actor_id
+        description: "Foreign key referencing dim_actors."
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('dim_actors')
+              field: actor_id
+
+  - name: fct_category_summary
+    description: "Analytical summary of genres, pricing dynamics, and volume contribution."
+    columns:
+      - name: category_name
+        description: "Genre identifier."
+        tests:
+          - unique
+          - not_null
